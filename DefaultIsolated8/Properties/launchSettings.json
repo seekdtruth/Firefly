@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "DefaultIsolated8": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7226",
+      "launchBrowser": false
+    }
+  }
+}
