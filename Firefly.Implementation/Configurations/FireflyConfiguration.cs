@@ -18,7 +18,6 @@ namespace Firefly.Implementation.Configurations
     {
         private const string KeyVaultTenantIdKey = "KeyVault:TenantId";
         private const string KeyVaultNameKey = "KeyVault:Name";
-        private const string KeyVaultUriKey = "KeyVault:Uri";
         private const string ThumbprintKey = "KeyVault:Certificates:Thumbprint";
         private const string PkcsThumbprintKey = "KeyVault:Certificates:PkcsThumbprint";
 
@@ -38,11 +37,12 @@ namespace Firefly.Implementation.Configurations
                 loggerFactory ??= new LoggerFactory();
                 _logger = loggerFactory.CreateLogger<FireflyConfiguration>();
 
-                KeyVaultTenantId = GetRequiredValue(KeyVaultTenantIdKey);
+                KeyVaultTenantId = TryParseConfigurationValue(KeyVaultTenantIdKey, out var value) 
+                    ? value : String.Empty;
                 KeyVaultName = GetRequiredValue(KeyVaultNameKey);
-                KeyVaultUri = new Uri(GetRequiredValue(KeyVaultUriKey));
                 Key01 = GetRequiredValue("KeyVault:Key01");
                 Key02 = GetRequiredValue("KeyVault:Key02");
+                KeyVaultUri = new Uri($"https://{KeyVaultName}.vault.azure.net");
                 CertificateThumbprint = GetRequiredValue(ThumbprintKey);
                 PkcsThumbprint = GetRequiredValue(PkcsThumbprintKey);
 
