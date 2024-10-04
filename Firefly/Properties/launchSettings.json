@@ -2,7 +2,7 @@
   "profiles": {
     "Firefly": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7058",
+      "commandLineArgs": "--port 7241",
       "launchBrowser": false
     }
   }

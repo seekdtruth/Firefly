@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "Persephone": {
+    "Firefly.Alerts": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7125",
+      "commandLineArgs": "--port 7237",
       "launchBrowser": false
     }
   }

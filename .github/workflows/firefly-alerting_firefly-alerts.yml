@@ -1,16 +1,16 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: persephone - alerting-Build and deploy dotnet core app to Azure Function App
+name: firefly-alerts - Build and deploy dotnet core app to Azure Function App
 
 on:
   push:
     branches:
-      - main
+      - firefly-alerting
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'Persephone' # set this to the path to your web app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "Firefly.Alerts" # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '8.0.x' # set this to the dotnet version to use
 
 jobs:
@@ -33,21 +33,21 @@ jobs:
         shell: pwsh
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Persephone-Release --output ./output
+          dotnet build --configuration Release --output ./output
           popd
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9D8DF26F0310472AA8A9368928DE070E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A91A12ED0A874716BD3F0FFD9B755697 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_95BE8EE59D1F4C7F901EAE38197058E3 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_96B5EAE353234F6C913CA24E8BD34A2F }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6588C9C6D75E4F359139C04830EBA64C }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_821C524BC68D40F5AB9697626A8530F5 }}
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: 'persephone-alerting'
+          app-name: 'firefly-alerts'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           
