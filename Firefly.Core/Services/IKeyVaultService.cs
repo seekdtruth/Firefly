@@ -1,9 +1,9 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 
-namespace Firefly.Core.Services
+namespace Firefly.Core.Services.Security
 {
     /// <summary>
     /// Represents an <see cref="IKeyVaultService"/>
@@ -17,17 +17,17 @@ namespace Firefly.Core.Services
         /// <returns>Requested <see cref="KeyVaultSecret"/></returns>
         KeyVaultSecret GetSecret(string secretKey, CancellationToken cancellationToken = new CancellationToken());
 
-        /// <inheritdoc cref="GetSecret(string, CancellationToken)"/>s
+        /// <inheritdoc cref="GetSecret"/>s
         Task<KeyVaultSecret> GetSecretAsync(string secretKey, CancellationToken cancellationToken = new CancellationToken());
 
         /// <summary>
-        /// Retrieves a <see cref="X509Certificate2" />
+        /// Retrieves a <see cref="KeyVaultKey"/>
         /// </summary>
-        /// <param name="name">Name of certificate to retrieve</param>
-        /// <returns>Requested <see cref="X509Certificate2" /></returns>
-        X509Certificate2 GetCertificate(string name, CancellationToken cancellationToken = new CancellationToken());
+        /// <param name="keyName">Name of the <see cref="KeyVaultKey"/></param>
+        /// <returns>Requested <see cref="KeyVaultKey"/></returns>
+        KeyVaultKey GetKey(string keyName, CancellationToken cancellationToken = new CancellationToken());
 
-        /// <inheritdoc cref="GetCertificate(string, CancellationToken)"/>
-        Task<X509Certificate2> GetCertificateAsnc(string name, CancellationToken cancellationToken = new CancellationToken());
+        /// <inheritdoc cref="GetKey"/>
+        Task<KeyVaultKey> GetKeyAsync(string keyName, CancellationToken cancellationToken = new CancellationToken());
     }
 }

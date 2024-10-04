@@ -1,15 +1,22 @@
 using System;
-using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace PersephoneAlerting
+namespace Firefly
 {
-    public class Heartbeat
+    public class Heartbeat(ILoggerFactory loggerFactory)
     {
-        [FunctionName("Heartbeat")]
-        public static void Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, ILogger log)
+        private readonly ILogger _logger = loggerFactory.CreateLogger<Heartbeat>();
+
+        [Function(nameof(Heartbeat))]
+        public void Run([TimerTrigger("0 * */1 * * *")] TimerInfo myTimer)
         {
-            log.LogInformation($"Heartbeat function executed at: {DateTime.Now}");
+            _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            
+            if (myTimer.ScheduleStatus is not null)
+            {
+                _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
+            }
         }
     }
 }

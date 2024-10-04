@@ -33,5 +33,25 @@ namespace Firefly.Core.Configurations
         /// The current <see cref="Environment"/>
         /// </summary>
         Environment Environment { get; }
+
+        /// <summary>
+        /// Encryption key 01
+        /// </summary>
+        string Key01 { get; }
+
+        /// <summary>
+        /// Encryption key 02
+        /// </summary>
+        string Key02 { get; }
+
+        /// <summary>
+        /// Public key only certificate thumbprint
+        /// </summary>
+        string CertificateThumbprint { get; }
+
+        /// <summary>
+        /// Public/private key certificate thumbprint
+        /// </summary>
+        string PkcsThumbprint { get; }
     }
 }

@@ -19,6 +19,8 @@ namespace Firefly.Implementation.Configurations
         private const string KeyVaultTenantIdKey = "KeyVault:TenantId";
         private const string KeyVaultNameKey = "KeyVault:Name";
         private const string KeyVaultUriKey = "KeyVault:Uri";
+        private const string ThumbprintKey = "KeyVault:Certificates:Thumbprint";
+        private const string PkcsThumbprintKey = "KeyVault:Certificates:PkcsThumbprint";
 
         private readonly IConfiguration _configuration;
         private readonly ILogger<FireflyConfiguration> _logger;
@@ -29,18 +31,30 @@ namespace Firefly.Implementation.Configurations
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="configuration"/> is null</exception>
         public FireflyConfiguration(IConfiguration configuration, ILoggerFactory? loggerFactory)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            Environment = EnvironmentExtensions.GetEnvironment();
-            loggerFactory ??= new LoggerFactory();
-            _logger = loggerFactory.CreateLogger<FireflyConfiguration>();
+            try
+            {
+                _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+                Environment = EnvironmentExtensions.GetEnvironment();
+                loggerFactory ??= new LoggerFactory();
+                _logger = loggerFactory.CreateLogger<FireflyConfiguration>();
 
-            KeyVaultTenantId = GetRequiredValue(KeyVaultTenantIdKey);
-            KeyVaultName = GetRequiredValue(KeyVaultNameKey);
-            KeyVaultUri = new Uri(GetRequiredValue(KeyVaultUriKey));
+                KeyVaultTenantId = GetRequiredValue(KeyVaultTenantIdKey);
+                KeyVaultName = GetRequiredValue(KeyVaultNameKey);
+                KeyVaultUri = new Uri(GetRequiredValue(KeyVaultUriKey));
+                Key01 = GetRequiredValue("KeyVault:Key01");
+                Key02 = GetRequiredValue("KeyVault:Key02");
+                CertificateThumbprint = GetRequiredValue(ThumbprintKey);
+                PkcsThumbprint = GetRequiredValue(PkcsThumbprintKey);
 
-            KeyVaultCredential = string.IsNullOrWhiteSpace(KeyVaultTenantId)
-                ? new DefaultAzureCredential()
-                : new DefaultAzureCredential(new DefaultAzureCredentialOptions { VisualStudioTenantId = KeyVaultTenantId });
+                KeyVaultCredential = string.IsNullOrWhiteSpace(KeyVaultTenantId)
+                    ? new DefaultAzureCredential()
+                    : new DefaultAzureCredential(new DefaultAzureCredentialOptions { VisualStudioTenantId = KeyVaultTenantId });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -64,6 +78,18 @@ namespace Firefly.Implementation.Configurations
 
         /// <inheritdoc/>
         public Environment Environment { get; }
+
+        /// <inheritdoc/>
+        public string Key01 { get; }
+
+        /// <inheritdoc/>
+        public string Key02 { get; }
+
+        /// <inheritdoc/>
+        public string CertificateThumbprint { get; }
+
+        /// <inheritdoc/>
+        public string PkcsThumbprint { get; }
 
         /// <inheritdoc/>
         public IEnumerable<IConfigurationSection> GetChildren()
