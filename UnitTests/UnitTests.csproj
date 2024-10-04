@@ -22,7 +22,6 @@
     <ProjectReference Include="..\Firefly.Core\Firefly.Core.csproj" />
     <ProjectReference Include="..\Firefly.Implementation\Firefly.Implementation.csproj" />
     <ProjectReference Include="..\Firefly.Utilities\Firefly.Utilities.csproj" />
-    <ProjectReference Include="..\Persephone\PersephoneAlerting.csproj" />
   </ItemGroup>
 
   <ItemGroup>
