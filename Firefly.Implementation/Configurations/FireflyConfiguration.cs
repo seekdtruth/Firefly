@@ -38,6 +38,7 @@ namespace Firefly.Implementation.Configurations
                 _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
                 Environment = EnvironmentExtensions.GetEnvironment();
 
+                ServiceBaseUrl = Environment == Environment.Local ? "https://localhost/" : configuration["ServiceAddress"] ?? string.Empty;
                 KeyVaultTenantId = TryParseConfigurationValue(KeyVaultTenantIdKey, out var value) 
                     ? value : String.Empty;
                 KeyVaultName = GetRequiredValue(KeyVaultNameKey);
@@ -91,6 +92,9 @@ namespace Firefly.Implementation.Configurations
 
         /// <inheritdoc/>
         public string PkcsThumbprint { get; }
+
+        /// <inheritdoc />
+        public string ServiceBaseUrl { get; }
 
         /// <inheritdoc/>
         public IEnumerable<IConfigurationSection> GetChildren()
