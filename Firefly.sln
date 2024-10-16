@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Implementation", "Implement
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firefly.Implementation", "Firefly.Implementation\Firefly.Implementation.csproj", "{C5E25F7C-55A6-45D5-BC77-0CD4CBE192F7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B42309DC-06F7-4F51-B4E5-01F85C035620}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firefly.Services", "Firefly.Services\Firefly.Services.csproj", "{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,10 @@ Global
 		{C5E25F7C-55A6-45D5-BC77-0CD4CBE192F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5E25F7C-55A6-45D5-BC77-0CD4CBE192F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5E25F7C-55A6-45D5-BC77-0CD4CBE192F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,7 @@ Global
 		{12D6CF24-4EDB-4D12-9326-022EA0956436} = {1A3753F3-3E14-4ED9-B17C-003F8BD44373}
 		{C3582ED1-6615-4B5E-B42B-78BC7F2081F3} = {6ED666A8-0D0B-4089-81DA-198F00E9D842}
 		{C5E25F7C-55A6-45D5-BC77-0CD4CBE192F7} = {A4CF886E-B99F-498F-BE90-041F6A955AF2}
+		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C} = {B42309DC-06F7-4F51-B4E5-01F85C035620}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C8B3F48-2B7D-42C7-9A3B-CBD38E9BCBDB}
