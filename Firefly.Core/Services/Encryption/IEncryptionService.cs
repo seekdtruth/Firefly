@@ -3,8 +3,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Firefly.Core.Services.Security
+namespace Firefly.Core.Services.Encryption
 {
+    /// <summary>
+    /// Represents an interface for encryption services
+    /// </summary>
     public interface IEncryptionService
     {
         /// <summary>
@@ -28,7 +31,7 @@ namespace Firefly.Core.Services.Security
         /// <returns>Decrypted object</returns>
         T Decrypt<T>(Stream stream, X509Certificate2 certificate, CancellationToken token = new CancellationToken());
 
-        /// <inheritdoc cref="Decrypt{T}(System.IO.Stream,System.Security.Cryptography.X509Certificates.X509Certificate2,System.Threading.CancellationToken)"/>
+        /// <inheritdoc cref="Decrypt{T}(Stream,X509Certificate2,CancellationToken)"/>
         Task<T> DecryptAsync<T>(Stream stream, X509Certificate2 certificate, CancellationToken token = new CancellationToken());
 
         /// <summary>
@@ -40,8 +43,7 @@ namespace Firefly.Core.Services.Security
         /// <returns>Decrypted object</returns>
         T Decrypt<T>(byte[] bytes, X509Certificate2 certificate, CancellationToken token = new CancellationToken());
 
-        /// <inheritdoc cref="Decrypt{T}(System.IO.Stream,System.Security.Cryptography.X509Certificates.X509Certificate2,System.Threading.CancellationToken)"/>
-        /// <param name="bytes">Byte array to decrypt</param>
+        /// <inheritdoc cref="Decrypt{T}(Stream,X509Certificate2,CancellationToken)"/>
         Task<T> DecryptAsync<T>(byte[] bytes, X509Certificate2 certificate, CancellationToken token = new CancellationToken());
     }
 }
