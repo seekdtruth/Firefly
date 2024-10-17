@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firefly.Services", "Firefly.Services\Firefly.Services.csproj", "{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{975E5898-ADD3-4598-8384-C3CF8B79B1CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAF8654B-319D-40D4-BA57-BDDC2418AB1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{975E5898-ADD3-4598-8384-C3CF8B79B1CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{975E5898-ADD3-4598-8384-C3CF8B79B1CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975E5898-ADD3-4598-8384-C3CF8B79B1CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{975E5898-ADD3-4598-8384-C3CF8B79B1CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
