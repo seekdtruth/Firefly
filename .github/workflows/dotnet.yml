@@ -23,3 +23,5 @@ jobs:
       run: dotnet restore ./Firefly/Firefly.sln
     - name: Build
       run: dotnet build ./Firefly/Firefly.sln --no-restore
+    - name: Unit Tests
+      run: dotnet test --no-restore --verbosity normal
