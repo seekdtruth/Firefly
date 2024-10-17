@@ -7,7 +7,6 @@ on:
   push:
     branches: [ "main", "service-next" ]
   pull_request:
-    branches: [ "main", "service-next" ]
 
 jobs:
   build:
