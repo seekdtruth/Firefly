@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace Firefly.Core.Http
 {
@@ -7,12 +8,6 @@ namespace Firefly.Core.Http
     /// </summary>
     public abstract class FireflyHttpResponse
     {
-        protected FireflyHttpResponse(HttpStatusCode statusCode, string statusMessage)
-        {
-            this.StatusCode = statusCode;
-            this.StatusMessage = statusMessage;
-        }
-
         /// <summary>
         /// The <see cref="HttpStatusCode"/> of the response
         /// </summary>
@@ -21,6 +16,6 @@ namespace Firefly.Core.Http
         /// <summary>
         /// The reason phrase or exception message, if applicable
         /// </summary>
-        public string StatusMessage { get; set; }
+        public string? StatusMessage { get; set; }
     }
 }
