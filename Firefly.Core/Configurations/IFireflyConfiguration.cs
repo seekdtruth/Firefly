@@ -53,5 +53,7 @@ namespace Firefly.Core.Configurations
         /// Public/private key certificate thumbprint
         /// </summary>
         string PkcsThumbprint { get; }
+
+        string ServiceBaseUrl { get; }
     }
 }
