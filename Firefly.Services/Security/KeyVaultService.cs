@@ -64,7 +64,8 @@ namespace Firefly.Services.Security
                         out var result)
                         ? result
                         : KeyClientOptions.ServiceVersion.V7_5));
-            } catch ( Exception ex )
+            } 
+            catch ( Exception ex )
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
@@ -98,7 +99,8 @@ namespace Firefly.Services.Security
                 _retrievedSecrets.Add(secretKey, response.Value);
 
                 return response.Value;
-            } catch ( Exception ex )
+            } 
+            catch ( Exception ex )
             {
                 _logger.LogError(ex.Message, ex);
                 throw;
@@ -132,7 +134,8 @@ namespace Firefly.Services.Security
                 _retrievedSecrets.Add(secretKey, response.Value);
 
                 return response.Value;
-            } catch ( Exception ex )
+            } 
+            catch ( Exception ex )
             {
                 _logger.LogError(ex.Message, ex);
                 throw;
@@ -151,7 +154,7 @@ namespace Firefly.Services.Security
             {
                 if ( keyName.IsNullOrWhitespace() ) throw new ArgumentNullException(nameof(keyName));
 
-                if ( TryGetKey(keyName, out var value) )
+                if ( _retrievedKeys.TryGetValue(keyName, out var value) )
                 {
                     return value;
                 }
@@ -160,13 +163,16 @@ namespace Firefly.Services.Security
 
                 if ( !response.HasValue )
                 {
-                    throw new KeyVaultErrorException("An unknown error occurred attempting to retrieve key");
+                    var raw = response.GetRawResponse();
+                    throw new FileNotFoundException(
+                        $"Failed to retrieve key: '{keyName}'. Code={raw.Status} Reason={raw.ReasonPhrase}");
                 }
 
                 _retrievedKeys.TryAdd(keyName, response.Value);
 
                 return response.Value;
-            } catch ( Exception ex )
+            } 
+            catch ( Exception ex )
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
@@ -184,7 +190,7 @@ namespace Firefly.Services.Security
             {
                 if ( keyName.IsNullOrWhitespace() ) throw new ArgumentNullException(nameof(keyName));
 
-                if ( TryGetKey(keyName, out var value) )
+                if ( _retrievedKeys.TryGetValue(keyName, out var value) )
                 {
                     return value;
                 }
@@ -193,24 +199,20 @@ namespace Firefly.Services.Security
 
                 if ( !response.HasValue )
                 {
-                    throw new KeyVaultErrorException("An unknown error occurred attempting to retrieve key");
+                    var raw = response.GetRawResponse();
+                    throw new FileNotFoundException(
+                        $"Failed to retrieve key: '{keyName}'. Code={raw.Status} Reason={raw.ReasonPhrase}");
                 }
 
                 _retrievedKeys.TryAdd(keyName, response.Value);
 
                 return _retrievedKeys.GetValueOrDefault(keyName);
-            } catch ( Exception ex )
+            } 
+            catch ( Exception ex )
             {
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
-        }
-
-        private bool TryGetKey(string keyName, out KeyVaultKey key)
-        {
-            keyName = !keyName.IsNullOrWhitespace() ? keyName : throw new ArgumentNullException(nameof(keyName));
-            key = _retrievedKeys.TryGetValue(keyName, out var retrievedKey) ? retrievedKey : new KeyVaultKey(keyName);
-            return _retrievedKeys.ContainsKey(keyName);
         }
     }
 }
