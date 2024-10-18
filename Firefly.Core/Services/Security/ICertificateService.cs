@@ -19,11 +19,13 @@ namespace Firefly.Core.Services.Security
         /// <summary>
         /// Retrieves a public and private keys <see cref="X509Certificate2" />
         /// </summary>
-        /// <param name="name">Name of certificate to retrieve</param>
+        /// <param name="certificateName"></param>
+        /// <param name="version"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Requested <see cref="X509Certificate2" /></returns>
-        X509Certificate2 DownloadCertificate(string name, CancellationToken cancellationToken = new CancellationToken());
+        X509Certificate2 DownloadCertificate(string certificateName, string? version = null, CancellationToken cancellationToken = new CancellationToken());
 
-        /// <inheritdoc cref="DownloadCertificate(string, CancellationToken)"/>
-        Task<X509Certificate2> DownloadCertificateAsync(string name, CancellationToken cancellationToken = new CancellationToken());
+        /// <inheritdoc cref="DownloadCertificate(string, string?, CancellationToken)"/>
+        Task<X509Certificate2> DownloadCertificateAsync(string certificateName, string? version = null, CancellationToken cancellationToken = new CancellationToken());
     }
 }
