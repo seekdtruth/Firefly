@@ -46,24 +46,36 @@ namespace Firefly.Services.Security
             {
                 configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
-                _secretClient = secretClient ?? new SecretClient(configuration.KeyVaultUri, configuration.KeyVaultCredential, new SecretClientOptions()
-                {
-                    Retry =
-                    {
-                        Delay = TimeSpan.FromSeconds(1),
-                        MaxDelay = TimeSpan.FromSeconds(1),
-                        MaxRetries = 1,
-                        Mode = RetryMode.Exponential
-                    }
-                });
+                var name = configuration.GetRequiredValue("KeyVaultName");
+                var tenant = configuration.GetValue("KeyVaultTenantId");
+                var keyVaultUri = new Uri($"https://{name}.vault.azure.net");
 
-                _keyClient = keyClient ?? new KeyClient(configuration.KeyVaultUri, new DefaultAzureCredential(),
-                    new KeyClientOptions(
-                        Enum.TryParse<KeyClientOptions.ServiceVersion>(
-                        configuration["KeyVaultClientApiVersion"] ?? "V7_5",
-                        out var result)
-                        ? result
-                        : KeyClientOptions.ServiceVersion.V7_5));
+                _secretClient = secretClient ?? new SecretClient(
+                    keyVaultUri,
+                    tenant.IsNullOrWhitespace()
+                        ? new DefaultAzureCredential()
+                        : new DefaultAzureCredential(new DefaultAzureCredentialOptions { VisualStudioTenantId = tenant }),
+                    new SecretClientOptions()
+                    {
+                        Retry =
+                        {
+                            Delay = TimeSpan.FromSeconds(1),
+                            MaxDelay = TimeSpan.FromSeconds(1),
+                            MaxRetries = 1,
+                            Mode = RetryMode.Exponential
+                        }
+                    });
+
+                var version = Enum.TryParse<KeyClientOptions.ServiceVersion>(
+                    configuration.GetValue("KeyVaultClientApiVersion") ?? "V7_5",
+                    out var result)
+                    ? result
+                    : KeyClientOptions.ServiceVersion.V7_5;
+
+                _keyClient = keyClient ?? new KeyClient(
+                    keyVaultUri,
+                    new DefaultAzureCredential(),
+                    new KeyClientOptions(version));
             } 
             catch ( Exception ex )
             {
