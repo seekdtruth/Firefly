@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
+using Environment = Firefly.Core.Configurations.Environment;
+
 namespace Firefly.Implementation.Http
 {
     /// <summary>
@@ -26,24 +28,28 @@ namespace Firefly.Implementation.Http
 
         protected FireflyHttpClient(IFireflyHttpClientFactory clientFactory, IFireflyConfiguration configuration,
             ILoggerFactory? loggerFactory)
-            : this(clientFactory, configuration, loggerFactory, configuration.ServiceBaseUrl)
+            : this(clientFactory, configuration, loggerFactory, configuration.GetValue("ServiceUrl"))
         {
         }
 
-        protected FireflyHttpClient(IFireflyHttpClientFactory clientFactory, IFireflyConfiguration configuration, ILoggerFactory? loggerFactory, string baseUrl)
+        protected FireflyHttpClient(IFireflyHttpClientFactory clientFactory, IFireflyConfiguration configuration, ILoggerFactory? loggerFactory, string? baseUrl)
         {
             _httpClient = clientFactory.CreateClient();
             _logger = loggerFactory is null ? new LoggerFactory().CreateLogger<FireflyHttpClient>() : loggerFactory.CreateLogger<FireflyHttpClient>();
 
-            if ( Regex.IsMatch(baseUrl,
-                    @"http://[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)") )
+            if (!baseUrl.IsNullOrWhitespace() && Regex.IsMatch(baseUrl,
+                         @"http://[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)") )
             {
                 _baseUrl = baseUrl;
             }
             else
             {
-                baseUrl = !baseUrl.StartsWith("/") ? "/" + baseUrl : baseUrl;
-                _baseUrl = configuration.ServiceBaseUrl + baseUrl;
+                _baseUrl = configuration.Environment == Environment.Local
+                    ? "https://localhost/"
+                    : configuration["ServiceAddress"] ?? string.Empty;
+
+                if (!baseUrl.IsNullOrWhitespace())
+                    _baseUrl +=  !baseUrl.StartsWith("/") ? "/" + baseUrl : baseUrl;
             }
         }
 
