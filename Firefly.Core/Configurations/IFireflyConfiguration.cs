@@ -1,6 +1,7 @@
 ﻿using System;
-using Azure.Core;
+
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage;
 
 namespace Firefly.Core.Configurations
 {
@@ -10,50 +11,33 @@ namespace Firefly.Core.Configurations
     public interface IFireflyConfiguration : IConfiguration
     {
         /// <summary>
-        /// The associated Key Vault Tenant ID
+        /// Gets a string configuration value
         /// </summary>
-        string KeyVaultTenantId { get; }
+        string? GetValue(string key);
 
         /// <summary>
-        /// The Key Vault Name
+        /// Gets an int configuration value
         /// </summary>
-        string KeyVaultName { get; }
+        /// <exception cref="ArgumentNullException">Thrown if the configuration value isn't found.</exception>
+        /// <exception cref="FormatException" />
+        /// <exception cref="OverflowException" />
+        int? GetIntValue(string key);
 
         /// <summary>
-        /// The Key Vault <see cref="Uri"/>
+        /// Gets a string configuration value
         /// </summary>
-        Uri KeyVaultUri { get; }
+        /// <exception>Throws an <see cref="ArgumentNullException"/> if the configuration value isn't found.</exception>
+        string GetRequiredValue(string key);
 
         /// <summary>
-        /// The Key Vault <see cref="TokenCredential"/>
+        /// Gets a byte[] configuration value
         /// </summary>
-        TokenCredential KeyVaultCredential { get; }
+        /// <exception cref="ArgumentNullException">Thrown if the configuration value isn't found.</exception>
+        byte[] GetRequiredBytes(string key);
 
         /// <summary>
         /// The current <see cref="Environment"/>
         /// </summary>
         Environment Environment { get; }
-
-        /// <summary>
-        /// Encryption key 01
-        /// </summary>
-        string Key01 { get; }
-
-        /// <summary>
-        /// Encryption key 02
-        /// </summary>
-        string Key02 { get; }
-
-        /// <summary>
-        /// Public key only certificate thumbprint
-        /// </summary>
-        string CertificateThumbprint { get; }
-
-        /// <summary>
-        /// Public/private key certificate thumbprint
-        /// </summary>
-        string PkcsThumbprint { get; }
-
-        string ServiceBaseUrl { get; }
     }
 }
