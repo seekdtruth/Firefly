@@ -1,7 +1,6 @@
 ﻿using System.Net;
 
 using Azure;
-using Azure.Identity;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Secrets;
 
@@ -268,9 +267,7 @@ namespace UnitTests.Security
         {
             var mock = new Mock<IFireflyConfiguration>();
 
-            mock.Setup(config => config.KeyVaultUri).Returns(new Uri("https://someurl.com"));
-            mock.Setup(config => config.KeyVaultName).Returns("KeyVaultName");
-            mock.Setup(config => config.KeyVaultCredential).Returns(new DefaultAzureCredential());
+            mock.Setup(config => config.GetRequiredValue("KeyVaultName")).Returns("KeyVaultName");
 
             return mock.Object;
         }
